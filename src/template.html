@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Eighth Win</title>
+<meta name="description" content="Sumo's 2011 match-fixing purge left no mark on the final day. A wrestler who needed his eighth win beat an opponent who did not about 61% of the time both before it and after it, against about 49% expected.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ------------------------------------------------------------------ *
+ * A banzuke sheet: washi ground, sumi ink, and one vermilion that    *
+ * only ever means "needs the eighth win". Indigo is what the rating  *
+ * model expected. Grey is everything else.                           *
+ * ------------------------------------------------------------------ */
+:root{
+  --ground:#f4efe4; --panel:#fbf8f1; --sunk:#ebe4d4;
+  --ink:#1b1a17; --ink2:#4b4740; --ink3:#857f73; --rule:#d8cfbd; --rule2:#e6dfcf;
+  --shu:#c0392b; --shu-soft:#f0d3cb; --ai:#2f4a6d; --ai-soft:#d5deea;
+  --band:rgba(27,26,23,.08); --warn:#b4321f; --ok:#2f6f45; --dim:#b9b1a2;
+  color-scheme:light dark;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --ground:#141311; --panel:#1c1a17; --sunk:#100f0d;
+  --ink:#ece6d8; --ink2:#bdb5a5; --ink3:#857e70; --rule:#38332b; --rule2:#2a2621;
+  --shu:#f0705a; --shu-soft:#4a241d; --ai:#8faad0; --ai-soft:#22303f;
+  --band:rgba(236,230,216,.09); --warn:#f0806b; --ok:#7cc495; --dim:#59534a;
+}}
+:root[data-theme="dark"]{
+  --ground:#141311; --panel:#1c1a17; --sunk:#100f0d;
+  --ink:#ece6d8; --ink2:#bdb5a5; --ink3:#857e70; --rule:#38332b; --rule2:#2a2621;
+  --shu:#f0705a; --shu-soft:#4a241d; --ai:#8faad0; --ai-soft:#22303f;
+  --band:rgba(236,230,216,.09); --warn:#f0806b; --ok:#7cc495; --dim:#59534a;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--ground);color:var(--ink);font:16px/1.62 "IBM Plex Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+@media(min-width:700px){.wrap{padding:0 28px}}
+h1,h2,h3{font-family:"Shippori Mincho B1",Georgia,serif;line-height:1.08;margin:0;font-weight:800}
+.mono,code{font-family:"IBM Plex Mono",monospace}
+code{font-size:.92em;overflow-wrap:anywhere}
+a{color:inherit;text-decoration-color:var(--ink3);text-underline-offset:3px}
+.k{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3)}
+section{margin-top:70px}
+section h2{font-size:clamp(30px,4.4vw,46px)}
+.lede{font-size:18px;color:var(--ink2);max-width:66ch;margin:12px 0 0}
+p{max-width:68ch}
+.shu{color:var(--shu);font-weight:600} .ai{color:var(--ai);font-weight:600}
+
+/* hero */
+header{padding:44px 0 6px}
+.hoshi{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:22px;align-items:center}
+.hoshi span{width:24px;height:24px;border-radius:50%;border:2px solid var(--ink);display:block}
+.hoshi span.w{background:transparent} .hoshi span.l{background:var(--ink)}
+.hoshi span.q{border-color:var(--shu);border-style:dashed;animation:pulse 2.4s ease-in-out infinite}
+.hoshi .gap{width:10px;border:0}
+.hoshi em{font:500 12px "IBM Plex Mono",monospace;font-style:normal;color:var(--shu);margin-left:8px}
+@keyframes pulse{50%{background:var(--shu-soft)}}
+h1{font-size:clamp(52px,10vw,108px);letter-spacing:-.01em}
+.finding{font-family:"Shippori Mincho B1",Georgia,serif;font-weight:600;font-size:clamp(22px,3vw,32px);line-height:1.25;max-width:34ch;margin:18px 0 0}
+.finding b{color:var(--shu);font-weight:800}
+.finding.withheld{color:var(--warn)}
+.dek{color:var(--ink2);max-width:64ch;margin-top:16px}
+
+.nums{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:30px}
+@media(min-width:820px){.nums{grid-template-columns:repeat(4,1fr)}}
+.nums>div{background:var(--panel);padding:16px 18px}
+.nums .v{font:800 34px/1 "Shippori Mincho B1",Georgia,serif}
+.nums .v small{font-size:18px;color:var(--ink3);font-weight:600}
+.nums .d{font-size:13px;color:var(--ink2);margin-top:7px;line-height:1.4}
+
+.card{background:var(--panel);border:1px solid var(--rule);border-radius:3px;padding:18px 18px 14px;margin-top:22px}
+.card h3{font-size:23px}
+.card .sub{font-size:14px;color:var(--ink2);margin:5px 0 0}
+svg{display:block;width:100%;height:auto;overflow:visible}
+@media(max-width:700px){svg.wide{min-width:680px}}
+svg text{font-family:"IBM Plex Mono",monospace;font-size:11px;fill:var(--ink3)}
+.tip{min-height:1.6em;font:12.5px "IBM Plex Mono",monospace;color:var(--ink2);margin-top:8px}
+.two{display:grid;gap:22px;grid-template-columns:1fr}
+@media(min-width:900px){.two{grid-template-columns:1fr 1fr}}
+.two .card{margin-top:0;min-width:0}
+.verdict{font:600 13px/1.5 "IBM Plex Mono",monospace;margin-top:10px;padding:8px 10px;border-radius:3px;background:var(--sunk)}
+.verdict.ok{color:var(--ok)} .verdict.bad{color:var(--warn)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.chip{font:500 13px "IBM Plex Mono",monospace;padding:6px 11px;border-radius:999px;border:1px solid var(--rule);background:var(--panel);color:var(--ink2);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+.chip:focus-visible,input:focus-visible{outline:2px solid var(--shu);outline-offset:2px}
+.slider{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:14px;font:13px "IBM Plex Mono",monospace;color:var(--ink2)}
+.slider input{width:220px;accent-color:var(--shu)}
+
+.scroller{overflow-x:auto;margin-top:12px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:540px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--rule2);vertical-align:top}
+th{font:400 11px "IBM Plex Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+td.n{font-family:"IBM Plex Mono",monospace;text-align:right;white-space:nowrap}
+td.okc{color:var(--ok);font-family:"IBM Plex Mono",monospace} td.badc{color:var(--warn);font-family:"IBM Plex Mono",monospace}
+
+.tl{display:grid;gap:0;margin-top:22px;border-left:2px solid var(--rule)}
+.tl>div{padding:4px 0 16px 18px;position:relative}
+.tl>div::before{content:"";position:absolute;left:-7px;top:10px;width:12px;height:12px;border-radius:50%;background:var(--ground);border:2px solid var(--ink3)}
+.tl>div.on::before{border-color:var(--shu);background:var(--shu)}
+.tl .y{font:600 15px "IBM Plex Mono",monospace}
+.tl p{margin:2px 0 0;color:var(--ink2);font-size:15px}
+
+.methods{background:var(--panel);border:1px solid var(--rule);border-radius:3px;padding:22px 20px;margin-top:22px}
+.methods h3{font-size:22px;margin-top:26px}
+.methods h3:first-child{margin-top:0}
+.methods li{margin-bottom:8px;color:var(--ink2);max-width:78ch}
+.methods li b{color:var(--ink)}
+footer{margin:70px 0 50px;color:var(--ink3);font-size:13px}
+#loading{font:13px "IBM Plex Mono",monospace;color:var(--ink3);margin-top:14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="hoshi" aria-hidden="true" id="hoshi"></div>
+  <div class="k">Grand sumo, every top-division final day, 1958 to 2026</div>
+  <h1>The Eighth Win</h1>
+  <p class="finding" id="finding">Sumo's 2011 match-fixing purge left no mark on the final day. A wrestler who needed his <b>eighth win</b> beat an opponent who did not <b id="fBefore">62%</b> of the time in the decade before it and <b id="fAfter">61%</b> in the eight years after, against about <span id="fExp">49%</span> expected both times.</p>
+  <p class="dek">Fifteen bouts, and eight wins is the line: it means promotion, or at least no demotion, and near the foot of the second division it can be the difference between a salary and none. In 2002 two economists showed that wrestlers on seven wins going into the last day won far more often than they should, and that the favour seemed to be returned the next time the two met. In 2011 police found text messages arranging bouts, a tournament was cancelled, and 23 wrestlers were expelled. This page asks what the final day looked like afterwards. Every figure is recalculated in your browser from <span id="nBouts">197,779</span> bouts in <span id="nBasho">410</span> tournaments.</p>
+  <div class="nums" id="nums"></div>
+  <div id="loading">Unpacking the data…</div>
+</header>
+
+<section id="history">
+  <h2>Sixty-eight years of final days</h2>
+  <p class="lede">Top: on the last day, how much more often the wrestler on seven wins beat an opponent who was not, than a rating model built from every other bout expected. Bottom, from a different site and a different unit: how many more wrestlers finished 8-7 than 7-8. With no line at eight, both would sit on zero. Whiskers are 95% intervals.</p>
+  <div class="card">
+    <div class="chips" role="group" aria-label="Bin width" id="binChips">
+      <button class="chip" data-bin="1" aria-pressed="false">1 year</button>
+      <button class="chip" data-bin="3" aria-pressed="true">3 years</button>
+      <button class="chip" data-bin="5" aria-pressed="false">5 years</button>
+    </div>
+    <div class="scroller"><svg class="wide" id="hist" viewBox="0 0 960 470" role="img" aria-label="Final-day excess win rate and the 8-7 surplus, by period, 1958 to 2026"></svg></div>
+    <div class="tip" id="histTip">Hover a period.</div>
+    <p class="sub" id="histCorr"></p>
+  </div>
+  <div class="tl">
+    <div class="on"><div class="y">1989 to 2000</div><p>The years Duggan and Levitt studied. The peak on both measures.</p></div>
+    <div class="on"><div class="y">2000</div><p>A former wrestler, Keisuke Itai, says publicly and in a book that most bouts are fixed. Out of the paper's sample, and the sharpest fall in the record follows it. Then it creeps back.</p></div>
+    <div class="on"><div class="y">2011</div><p>Text messages turn up in a police inquiry into gambling. The March tournament is cancelled, the first since 1946, and 23 wrestlers are expelled. Neither measure moves.</p></div>
+    <div class="on"><div class="y">2019</div><p>The final-day schedule starts pairing most 7-7 wrestlers with each other, which removes most of the bouts this page measures. See below.</p></div>
+  </div>
+</section>
+
+<section id="purge">
+  <h2>Before and after the purge</h2>
+  <p class="lede">The decade before the scandal against the eight years after it, stopping where the schedule changed. Two measures, from two sites, kept apart and never averaged. If the purge had cleaned up the last day, both should drop.</p>
+  <div class="two">
+    <div class="card">
+      <div class="k">Measure A · bouts, sumo-api.com</div>
+      <h3>Wrestler on 7 wins, last day</h3>
+      <p class="sub">Win rate against an opponent not on 7 wins, and what the rating model expected.</p>
+      <svg id="purgeA" viewBox="0 0 440 240" role="img" aria-label="Measure A before and after 2011"></svg>
+      <div class="verdict" id="vA">computing…</div>
+    </div>
+    <div class="card">
+      <div class="k">Measure B · final records, SumoDB</div>
+      <h3>Finished 8-7 against 7-8</h3>
+      <p class="sub">Share of wrestlers with a full fifteen bouts who finished on each record.</p>
+      <svg id="purgeB" viewBox="0 0 440 240" role="img" aria-label="Measure B before and after 2011"></svg>
+      <div class="verdict" id="vB">computing…</div>
+    </div>
+  </div>
+</section>
+
+<section id="control">
+  <h2>The controls</h2>
+  <p class="lede">Each of these could catch the method lying. Their verdicts are computed live; if any fails, the headline at the top is withdrawn and says so.</p>
+  <div class="card">
+    <div class="k">Control 1 · reproduce the paper first</div>
+    <h3>Duggan and Levitt's own years, rerun</h3>
+    <p class="sub">January 1989 to January 2000, their published figures against this pipeline. Their day-by-day figures are the raw excess over 50%, column 1 of their Table 1, so the same is computed here.</p>
+    <div class="scroller"><table id="repro"></table></div>
+    <div class="verdict" id="v1">computing…</div>
+  </div>
+  <div class="card">
+    <div class="k">Control 2 · same day, nothing at stake</div>
+    <h3>Wrestlers on 6-8 and 8-6</h3>
+    <p class="sub">Judged by the same rating model on the same last day, against the same kind of opponent. They have no eighth win to chase, so their excess should be near zero. If the model flattered anyone in the middle of the table, it would show here.</p>
+    <div class="scroller"><svg class="wide" id="placebo" viewBox="0 0 960 230" role="img" aria-label="Excess win rate by record on the last day, by period"></svg></div>
+    <div class="verdict" id="v2">computing…</div>
+  </div>
+  <div class="two" style="margin-top:22px">
+    <div class="card">
+      <div class="k">Control 3 · a second expectation</div>
+      <h3>Rank instead of ratings</h3>
+      <p class="sub">The 7-7 excess again, with the expected rate taken only from where each man stood on the banzuke, fitted per period. It shares nothing with the Elo model but the outcomes.</p>
+      <div class="scroller"><table id="rankT"></table></div>
+      <div class="verdict" id="v3">computing…</div>
+    </div>
+    <div class="card">
+      <div class="k">Control 4 · is the model calibrated?</div>
+      <h3>Every other late bout</h3>
+      <p class="sub">Days 11 to 15, nobody on the margin. Expected against actual for the favourite, period by period. A model that is off here cannot be trusted on the 7-7 bouts.</p>
+      <div class="scroller"><table id="calT"></table></div>
+      <div class="verdict" id="v4">computing…</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="k">The rating model's memory</div>
+    <h3>Change how fast the ratings move</h3>
+    <p class="sub">Elo's K sets how far one bout moves a rating. Everything that depends on the model, including the headline and controls 2 to 4, is recomputed as you drag.</p>
+    <div class="slider"><label for="kSlider">K =</label><input type="range" id="kSlider" min="4" max="40" step="2" value="10"><span id="kOut">10</span></div>
+    <p class="sub">K = 10 was chosen before any control existed, as the value that best predicted ordinary bouts. When this page was built, the headline stood for every K from 4 to 16 and withdrew itself from 18 up, where the ratings swing so far after each bout that control 4 fails, and control 3 with it a little higher. The purge comparison itself moves by less than a point across the whole range.</p>
+  </div>
+</section>
+
+<section id="schedule">
+  <h2>The schedule changed the experiment</h2>
+  <p class="lede">Who fights whom on the last day is set by the judges the evening before. Until 2018, most wrestlers on 7-7 met someone who was already safe or already beaten. From 2019 most meet another 7-7, where both need the win and neither can afford to give it away.</p>
+  <div class="card">
+    <div class="scroller"><svg class="wide" id="sched" viewBox="0 0 960 260" role="img" aria-label="Share of final-day 7-7 wrestlers drawn against another 7-7, by year"></svg></div>
+    <div class="tip" id="schedTip">Hover a year.</div>
+    <p class="sub" id="schedNote"></p>
+  </div>
+  <p>That is a measurement problem as well as a policy. It halves the number of bouts measure A can use, and a 7-7 against 7-7 bout sends exactly one man to 8-7 and one to 7-8, which pulls measure B towards zero whatever anyone does. So the comparison above stops at November 2018, and the years since are shown on their own: <span id="post19"></span></p>
+</section>
+
+<section id="payback">
+  <h2>Bought, or just wanted more?</h2>
+  <p class="lede">A wrestler with more at stake may simply try harder. Duggan and Levitt's answer was the rematch: if the eighth win had been bought, the man who sold it should get it back the next time the two met. They found exactly that. It is rerun here, with two comparisons the paper did not have.</p>
+  <div class="card">
+    <div class="chips" role="group" aria-label="Period" id="cChips"></div>
+    <div class="scroller"><svg class="wide" id="cChart" viewBox="0 0 960 270" role="img" aria-label="Next-meeting win rate against expectation, by kind of first bout"></svg></div>
+    <div class="tip" id="cTip"></div>
+    <div class="verdict" id="vC">computing…</div>
+  </div>
+  <p id="cText"></p>
+</section>
+
+<section id="instrument">
+  <h2>Hunting the instrument</h2>
+  <p class="lede">The headline rests on knowing, for every bout since 1958, who fought, who won, and what each man's record was that morning. These are the places that could have gone wrong, and what each one did.</p>
+  <div class="scroller"><table id="instT"></table></div>
+</section>
+
+<section id="methods">
+  <h2>Methods</h2>
+  <div class="methods">
+    <h3>Sources</h3>
+    <ul>
+      <li><b>sumo-api.com</b>, the banzuke endpoint (<code>/api/basho/&lt;YYYYMM&gt;/banzuke/&lt;Makuuchi|Juryo&gt;</code>), read on 2026-10-14: every Makuuchi and Juryo wrestler in every tournament from March 1958 to September 2026, with each day's result and opponent. 826 requests. No licence is stated; the site asks only for responsible use. Results are factual records, and this page ships only results, ranks and ring names.</li>
+      <li><b>SumoDB</b> (sumodb.sumogames.de), the final-day results page of each tournament, read on 2026-10-14: the "Yusho Arasoi" block lists every top-two-division wrestler with his fifteen-day string of wins, losses, defaults and absences. 413 pages. No licence is stated. Used only for measure B and the cross-check.</li>
+      <li><b>Japan Sumo Association</b> (sumo.or.jp), the hoshitori chart behind its results page, for the September 2026 tournament only, used as an official spot check.</li>
+      <li><b>Duggan, M. and Levitt, S. D. (2002), "Winning Isn't Everything: Corruption in Sumo Wrestling", American Economic Review 92(5)</b>, for the published figures control 1 reproduces.</li>
+    </ul>
+    <h3>What was measured, and how</h3>
+    <ul>
+      <li><b>On the margin</b> means still able to reach eight wins and not there yet: on day 15, exactly seven wins; on day 14, six or seven; and so on, as in the paper. Absences count against a wrestler, as they do on the banzuke. A bout counts for measure A only when exactly one of the two is on the margin.</li>
+      <li><b>Expected</b> comes from an Elo rating run through every bout in order from 1958, starting everyone at 1500 with K = 10 unless you move the slider. The bouts under test (late bouts with exactly one man on the margin) are predicted but never learned from, so a thrown bout cannot inflate the rating that judges the next one. Bouts decided by default are excluded from everything.</li>
+      <li><b>Measure A</b> is actual minus expected wins, as a share of bouts. Its interval is the binomial spread implied by the expected probabilities.</li>
+      <li><b>Measure B</b> is the share of wrestlers who fought all fifteen days (defaults included, absences not) and finished 8-7, minus the share who finished 7-8. It uses no model at all.</li>
+      <li><b>Periods</b>: the purge comparison is March 2000 to January 2011 against May 2011 to November 2018. March 2000 starts the decade after the paper's sample; May 2011 is the first tournament after the cancellation; November 2018 is the last before the schedule changed.</li>
+      <li><b>The headline verdict</b> calls a change "no measurable change" only when both measures' 95% intervals for the difference include zero.</li>
+    </ul>
+    <h3>What this does not say</h3>
+    <ul>
+      <li><b>Not that any bout was fixed.</b> An excess is a pattern across hundreds of bouts. It cannot point at one, and nobody named on this page is accused of anything.</li>
+      <li><b>Not that the remaining excess is corruption.</b> After 2011 the payback signature is gone (see above), so what remains could be effort, nerves on the other side, or something else. The data cannot tell those apart.</li>
+      <li><b>Not that the purge did nothing.</b> It may have changed who was willing, how, or on which day. It did not change how often the man on 7-7 won on the last one.</li>
+      <li><b>Not about the lower divisions.</b> Wrestlers below Juryo fight seven bouts, and the schedule already pairs equal records there, so the same test does not apply.</li>
+      <li><b>Not about the most recent years.</b> Since 2019 there are only a couple of dozen usable bouts a year. Both measures read lower, and the intervals are wide.</li>
+    </ul>
+    <h3>What did not work</h3>
+    <ul id="failed">
+      <li><b>The payback test does not single out the 7-7 bouts.</b> It reproduces the paper's figure almost exactly. But ordinary late bouts, with nobody on the margin, show a reversal too, two-thirds as large in 1958 to 1988, while early-tournament bouts show none. So in the old record, the rematch cannot tell a repaid favour on the bubble from whatever else the end of a tournament does to the next meeting. It is reported, not used for the headline.</li>
+      <li><b>Hoped to use the Sumo Association as a second source for the whole history.</b> Its site serves only the current tournament, so it became a one-tournament spot check instead.</li>
+      <li><b>The two main sources are probably not independent.</b> sumo-api.com's own about page names SumoDB as the resource it set out to make easier to use. Their near-perfect agreement is therefore a parse check, not two witnesses. The independence on this page is in the measures: one is about bouts and needs a model, the other is about final records and needs none.</li>
+      <li><b>Record symmetry is not a usable control for measure B.</b> Far from the line, records should mirror (10-5 as common as 5-10). They do not quite: in some periods the losing side is up to two points more common, likely from how withdrawals and visiting lower-division wrestlers fall. That asymmetry runs against the 8-7 surplus, not with it, so it is shown in the table above but not used as a gate.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  Data: sumo-api.com and SumoDB, results as factual records, no licence stated; one tournament checked against the Japan Sumo Association. Code: MIT. Rebuild instructions, the fetch-and-shape pipeline and expected values are in the repository.
+</footer>
+</div>
+
+<script>
+const DATA = __PAYLOAD__;
+
+/* ---------- decode: every column is gzip, then base64 ---------- */
+async function col(name, T){
+  const s = atob(DATA.cols[name]), u = new Uint8Array(s.length);
+  for (let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i);
+  const buf = await new Response(new Blob([u]).stream().pipeThrough(new DecompressionStream("gzip"))).arrayBuffer();
+  return new T(buf);
+}
+const fmtP = (x, d = 0) => (100 * x).toFixed(d) + "%";
+const sgn = (x, d = 1) => (x < 0 ? "−" : "+") + Math.abs(100 * x).toFixed(d);
+const pts = (x, d = 1) => sgn(x, d) + " pts";
+const NS = "http://www.w3.org/2000/svg";
+function el(tag, attrs, parent, text){
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (text != null) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+/* colours are read once per draw: reading computed style while appending nodes forces a restyle each time */
+let PAL = {};
+const css = v => PAL[v] ??= getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+
+/* periods: the purge comparison is P3 against P4 */
+const PERIODS = [
+  {key: "p1", label: "1958–1988", lo: "195801", hi: "198811"},
+  {key: "p2", label: "1989–2000", lo: "198901", hi: "200001", note: "the paper's years"},
+  {key: "p3", label: "2000–2011", lo: "200003", hi: "201101", note: "before the purge"},
+  {key: "p4", label: "2011–2018", lo: "201105", hi: "201811", note: "after the purge"},
+  {key: "p5", label: "2019–2026", lo: "201901", hi: "202609", note: "new schedule"}
+];
+
+let S = {};   /* the decoded data and everything derived from it */
+
+async function load(){
+  const C = {};
+  const spec = {eBasho: Uint16Array, eRik: Uint16Array, eDiv: Uint8Array, eRank: Uint16Array, eDays: Uint8Array,
+    bA: Uint16Array, bB: Uint16Array, bDay: Uint8Array, bFlag: Uint8Array,
+    sBasho: Uint16Array, sDiv: Uint8Array, sW: Uint8Array, sL: Uint8Array, sAbs: Uint8Array};
+  await Promise.all(Object.keys(spec).map(async k => { C[k] = await col(k, spec[k]); }));
+  const basho = DATA.basho, nB = basho.length;
+  const periodOfBasho = new Int8Array(nB).fill(-1);
+  basho.forEach((b, i) => { PERIODS.forEach((p, j) => { if (b >= p.lo && b <= p.hi) periodOfBasho[i] = j; }); });
+  const yearOfBasho = basho.map(b => +b.slice(0, 4));
+
+  /* records going into each day: W, L, and whether the entry has a missing day */
+  const nE = C.eBasho.length;
+  const preW = new Uint8Array(nE * 16), preL = new Uint8Array(nE * 16), blank = new Uint8Array(nE);
+  for (let e = 0; e < nE; e++){
+    let w = 0, l = 0;
+    for (let d = 0; d < 15; d++){
+      preW[e * 16 + d] = w; preL[e * 16 + d] = l;
+      const c = C.eDays[e * 15 + d];
+      if (c === 0 || c === 2) w++; else if (c === 1 || c === 3 || c === 4) l++; else blank[e] = 1;
+    }
+    preW[e * 16 + 15] = w; preL[e * 16 + 15] = l;
+  }
+  const nb = C.bA.length;
+  const margin = (e, day) => { const w = preW[e * 16 + day - 1]; return w < 8 && w + 16 - day >= 8; };
+  /* per-bout tags: 0 nobody/both on margin, 1 A only, 2 B only; bit 4 excluded */
+  const tag = new Uint8Array(nb), test = new Uint8Array(nb);
+  for (let i = 0; i < nb; i++){
+    const a = C.bA[i], b = C.bB[i], d = C.bDay[i];
+    if (blank[a] || blank[b] || (C.bFlag[i] & 2)) { tag[i] = 8; continue; }
+    const ma = margin(a, d), mb = margin(b, d);
+    tag[i] = ma === mb ? 0 : (ma ? 1 : 2);
+    if (d >= 11 && ma !== mb) test[i] = 1;
+  }
+  /* next meeting of the same two men, for the payback test */
+  const nRik = DATA.names.length, next = new Int32Array(nb).fill(-1), last = new Map();
+  for (let i = nb - 1; i >= 0; i--){
+    const x = C.eRik[C.bA[i]], y = C.eRik[C.bB[i]];
+    const key = Math.min(x, y) * 65536 + Math.max(x, y);
+    if (last.has(key)) next[i] = last.get(key);
+    last.set(key, i);
+  }
+  S = {C, basho, nB, nE, nb, nRik, preW, preL, blank, tag, test, next, periodOfBasho, yearOfBasho};
+  S.periodOfBout = i => periodOfBasho[C.eBasho[C.bA[i]]];
+  S.yearOfBout = i => yearOfBasho[C.eBasho[C.bA[i]]];
+}
+
+/* ---------- the rating model ---------- */
+function elo(K){
+  const {C, nb, nRik, test} = S;
+  const R = new Float64Array(nRik).fill(1500), exp = new Float32Array(nb);
+  for (let i = 0; i < nb; i++){
+    const a = C.eRik[C.bA[i]], b = C.eRik[C.bB[i]];
+    const p = 1 / (1 + Math.pow(10, (R[b] - R[a]) / 400));
+    exp[i] = p;
+    if (!(C.bFlag[i] & 2) && !test[i]){
+      const s = (C.bFlag[i] & 1) - p;
+      R[a] += K * s; R[b] -= K * s;
+    }
+  }
+  return exp;
+}
+/* a second expectation: rank difference only, one slope per period, fitted on non-test bouts */
+function rankModel(){
+  const {C, nb, test, tag} = S;
+  const slope = PERIODS.map((_, j) => {
+    let b = 0;
+    for (let it = 0; it < 12; it++){
+      let g = 0, h = 0;
+      for (let i = 0; i < nb; i++){
+        if (test[i] || tag[i] === 8 || S.periodOfBout(i) !== j) continue;
+        const x = (C.eRank[C.bB[i]] - C.eRank[C.bA[i]]) / 100, p = 1 / (1 + Math.exp(-b * x));
+        g += ((C.bFlag[i] & 1) - p) * x; h += p * (1 - p) * x * x;
+      }
+      b += g / h;
+    }
+    return b;
+  });
+  const exp = new Float32Array(nb);
+  for (let i = 0; i < nb; i++){
+    const j = S.periodOfBout(i);
+    exp[i] = j < 0 ? 0.5 : 1 / (1 + Math.exp(-slope[j] * (C.eRank[C.bB[i]] - C.eRank[C.bA[i]]) / 100));
+  }
+  return {exp, slope};
+}
+
+/* ---------- measures ---------- */
+/* focal side is the one whose record satisfies pick(w, l); opponent must satisfy opp(w, l) */
+function excess(exp, filt){
+  const {C, nb, preW, preL, tag} = S;
+  let n = 0, won = 0, e = 0, v = 0;
+  for (let i = 0; i < nb; i++){
+    if (tag[i] === 8 || C.bDay[i] !== filt.day) continue;
+    if (filt.inBout && !filt.inBout(i)) continue;
+    const d = C.bDay[i], a = C.bA[i], b = C.bB[i];
+    const wa = preW[a * 16 + d - 1], la = preL[a * 16 + d - 1], wb = preW[b * 16 + d - 1], lb = preL[b * 16 + d - 1];
+    for (const side of [0, 1]){
+      const [w, l, wo, lo] = side ? [wb, lb, wa, la] : [wa, la, wb, lb];
+      if (!filt.pick(w, l, d) || !filt.opp(wo, lo, d)) continue;
+      const p = side ? 1 - exp[i] : exp[i];
+      const x = side ? 1 - (C.bFlag[i] & 1) : (C.bFlag[i] & 1);
+      n++; won += x; e += p; v += p * (1 - p);
+    }
+  }
+  return {n, won, e, rate: won / n, expRate: e / n, ex: (won - e) / n, se: Math.sqrt(v) / n, raw: won / n - 0.5, rawSe: Math.sqrt(0.25 / n)};
+}
+const onMargin = (w, l, d) => w < 8 && w + 16 - d >= 8;
+const offMargin = (w, l, d) => !onMargin(w, l, d);
+const inPeriod = j => i => S.periodOfBout(i) === j;
+const inYears = (y0, y1) => i => { const y = S.yearOfBout(i); return y >= y0 && y <= y1; };
+const inBashoRange = (lo, hi) => i => { const b = S.basho[S.C.eBasho[S.C.bA[i]]]; return b >= lo && b <= hi; };
+const A_FILTER = extra => ({day: 15, pick: onMargin, opp: offMargin, inBout: extra});
+
+function measureB(pred){
+  const {C} = S, cnt = new Float64Array(16); let n = 0;
+  for (let i = 0; i < C.sBasho.length; i++){
+    if (C.sAbs[i] || C.sW[i] + C.sL[i] !== 15 || !pred(C.sBasho[i])) continue;
+    cnt[C.sW[i]]++; n++;
+  }
+  const p = cnt.map(c => c / n), gap = p[8] - p[7];
+  return {n, p, gap, se: Math.sqrt((p[8] + p[7] - gap * gap) / n), mirror: [10, 11, 12].map(k => p[k] - p[15 - k])};
+}
+const bPeriod = j => bi => S.periodOfBasho[bi] === j;
+const bYears = (y0, y1) => bi => S.yearOfBasho[bi] >= y0 && S.yearOfBasho[bi] <= y1;
+
+/* ---------- draw helpers ---------- */
+function clear(svg){ while (svg.firstChild) svg.removeChild(svg.firstChild); }
+function axisY(svg, x0, x1, y, lab, cls){
+  el("line", {x1: x0, x2: x1, y1: y, y2: y, stroke: css("--rule"), "stroke-width": 1}, svg);
+  el("text", {x: x0 - 6, y: y + 4, "text-anchor": "end"}, svg, lab);
+}
+
+/* ---------- section: history ---------- */
+let BIN = 3;
+function drawHistory(exp){
+  const svg = document.getElementById("hist"); clear(svg);
+  const X0 = 64, X1 = 940, yr0 = 1958, yr1 = 2027;
+  const xOf = y => X0 + (y - yr0) / (yr1 - yr0) * (X1 - X0);
+  const bins = [];
+  for (let y = yr0; y < yr1; y += BIN) bins.push([y, Math.min(y + BIN - 1, 2026)]);
+  const rows = bins.map(([a, b]) => ({a, b, A: excess(exp, A_FILTER(inYears(a, b))), B: measureB(bYears(a, b))}));
+  /* panel geometry */
+  const pan = [{top: 20, h: 190, get: r => r.A.ex, se: r => r.A.se, lo: -0.2, hi: 0.5, lab: "Measure A · excess wins"},
+               {top: 262, h: 170, get: r => r.B.gap, se: r => r.B.se, lo: -0.06, hi: 0.2, lab: "Measure B · 8-7 minus 7-8"}];
+  /* events */
+  const shade = el("rect", {x: xOf(1989), y: 10, width: xOf(2000) - xOf(1989), height: 432, fill: css("--band")}, svg);
+  for (const [y, t] of [[2000, "Itai"], [2011.2, "purge"], [2019, "schedule"]]){
+    el("line", {x1: xOf(y), x2: xOf(y), y1: 10, y2: 442, stroke: css("--ink3"), "stroke-dasharray": "3 4"}, svg);
+    el("text", {x: xOf(y) + 4, y: 452, fill: css("--ink2")}, svg, t);
+  }
+  el("text", {x: (xOf(1989) + xOf(2000)) / 2, y: 452, "text-anchor": "middle", fill: css("--ink2")}, svg, "the paper");
+  for (const P of pan){
+    const yOf = v => P.top + (P.hi - v) / (P.hi - P.lo) * P.h;
+    const step = P.hi > 0.3 ? 0.1 : 0.05;
+    for (let v = Math.ceil(P.lo / step) * step; v <= P.hi + 1e-9; v += step)
+      axisY(svg, X0, X1, yOf(v), (v > 0 ? "+" : v < 0 ? "−" : "") + Math.round(Math.abs(v) * 100));
+    el("line", {x1: X0, x2: X1, y1: yOf(0), y2: yOf(0), stroke: css("--ink3"), "stroke-width": 1.2}, svg);
+    el("text", {x: X0, y: P.top - 6, fill: css("--ink2")}, svg, P.lab + " (percentage points)");
+    for (const r of rows){
+      const v = P.get(r), s = P.se(r);
+      if (!isFinite(v)) continue;
+      const cx = (xOf(r.a) + xOf(r.b + 1)) / 2, w = Math.max(3, (xOf(r.b + 1) - xOf(r.a)) * 0.55);
+      const clamp = t => Math.max(P.top, Math.min(P.top + P.h, t));
+      el("line", {x1: cx, x2: cx, y1: clamp(yOf(v + 1.96 * s)), y2: clamp(yOf(v - 1.96 * s)), stroke: css("--shu"), "stroke-opacity": .45, "stroke-width": 1.5}, svg);
+      el("rect", {x: cx - w / 2, y: Math.min(yOf(v), yOf(0)), width: w, height: Math.abs(yOf(v) - yOf(0)), fill: css("--shu"), "fill-opacity": .8}, svg);
+    }
+  }
+  for (let y = 1960; y <= 2020; y += 10) el("text", {x: xOf(y), y: 466, "text-anchor": "middle"}, svg, y);
+  /* hover */
+  const tip = document.getElementById("histTip");
+  for (const r of rows){
+    const hit = el("rect", {x: xOf(r.a), y: 10, width: xOf(r.b + 1) - xOf(r.a), height: 432, fill: "transparent"}, svg);
+    const show = () => { tip.textContent = `${r.a}${r.b > r.a ? "–" + r.b : ""}: 7-7 won ${fmtP(r.A.rate)} of ${r.A.n} vs ${fmtP(r.A.expRate)} expected (${pts(r.A.ex)}) · finished 8-7 ${fmtP(r.B.p[8], 1)}, 7-8 ${fmtP(r.B.p[7], 1)} (${pts(r.B.gap)})`; };
+    hit.addEventListener("mouseenter", show); hit.addEventListener("click", show);
+  }
+  /* the two measures, binned, against each other */
+  const xs = rows.filter(r => r.A.n >= 10).map(r => r.A.ex), ys = rows.filter(r => r.A.n >= 10).map(r => r.B.gap);
+  const c = corr(xs, ys);
+  document.getElementById("histCorr").textContent = `Across these ${xs.length} periods the two measures correlate at r = ${c.toFixed(2)}. They come from different sites, count different things, and only one of them uses a model.`;
+}
+function corr(x, y){
+  const n = x.length; let mx = 0, my = 0;
+  for (let i = 0; i < n; i++){ mx += x[i]; my += y[i]; }
+  mx /= n; my /= n; let a = 0, b = 0, c = 0;
+  for (let i = 0; i < n; i++){ a += (x[i] - mx) * (y[i] - my); b += (x[i] - mx) ** 2; c += (y[i] - my) ** 2; }
+  return a / Math.sqrt(b * c);
+}
+
+/* ---------- section: purge ---------- */
+function pairBars(svg, items, opts){
+  clear(svg);
+  const X0 = 46, X1 = 430, Y0 = 20, Y1 = 196;
+  const yOf = v => Y1 - (v - opts.lo) / (opts.hi - opts.lo) * (Y1 - Y0);
+  for (let v = opts.lo; v <= opts.hi + 1e-9; v += opts.step) axisY(svg, X0, X1, yOf(v), Math.round(v * 100) + "%");
+  const gw = (X1 - X0) / items.length;
+  items.forEach((it, k) => {
+    const gx = X0 + gw * k + gw * 0.12, bw = gw * 0.76 / it.bars.length;
+    it.bars.forEach((b, m) => {
+      const x = gx + bw * m;
+      el("rect", {x: x + 2, y: yOf(b.v), width: bw - 4, height: Y1 - yOf(b.v), fill: b.color, "fill-opacity": b.op || 1}, svg);
+      if (b.se) el("line", {x1: x + bw / 2, x2: x + bw / 2, y1: yOf(b.v + 1.96 * b.se), y2: yOf(b.v - 1.96 * b.se), stroke: css("--ink"), "stroke-width": 1.4}, svg);
+      el("text", {x: x + bw / 2, y: yOf(b.v) - (b.se ? 1.96 * b.se * (Y1 - Y0) / (opts.hi - opts.lo) + 6 : 6), "text-anchor": "middle", fill: css("--ink")}, svg, fmtP(b.v, b.d || 0));
+      el("text", {x: x + bw / 2, y: Y1 + 15, "text-anchor": "middle"}, svg, b.lab);
+    });
+    el("text", {x: X0 + gw * (k + 0.5), y: Y1 + 34, "text-anchor": "middle", fill: css("--ink2")}, svg, it.lab);
+  });
+}
+
+/* ---------- section: placebo ---------- */
+function drawPlacebo(exp){
+  const svg = document.getElementById("placebo"); clear(svg);
+  const recs = [["7-7", 7, 7, css("--shu")], ["6-8", 6, 8, css("--dim")], ["8-6", 8, 6, css("--ink3")]];
+  const X0 = 50, X1 = 950, Y0 = 18, Y1 = 186, lo = -0.08, hi = 0.32;
+  const yOf = v => Y1 - (v - lo) / (hi - lo) * (Y1 - Y0);
+  for (let v = -0.05; v <= hi; v += 0.05) axisY(svg, X0, X1, yOf(v), (v > 0.001 ? "+" : v < -0.001 ? "−" : "") + Math.round(Math.abs(v) * 100));
+  el("line", {x1: X0, x2: X1, y1: yOf(0), y2: yOf(0), stroke: css("--ink3"), "stroke-width": 1.2}, svg);
+  const gw = (X1 - X0) / PERIODS.length; let worst = 0, worstLab = "";
+  PERIODS.forEach((P, j) => {
+    recs.forEach(([lab, W, L, color], m) => {
+      const r = excess(exp, {day: 15, pick: (w, l) => w === W && l === L, opp: (w, l) => !(w === 7 && l === 7), inBout: inPeriod(j)});
+      if (m > 0 && Math.abs(r.ex) > Math.abs(worst)){ worst = r.ex; worstLab = `${lab} in ${P.label}`; }
+      const bw = gw * 0.8 / 3, x = X0 + gw * j + gw * 0.1 + bw * m;
+      el("rect", {x: x + 2, y: Math.min(yOf(r.ex), yOf(0)), width: bw - 4, height: Math.abs(yOf(r.ex) - yOf(0)), fill: color}, svg);
+      el("line", {x1: x + bw / 2, x2: x + bw / 2, y1: yOf(r.ex + 1.96 * r.se), y2: yOf(r.ex - 1.96 * r.se), stroke: css("--ink"), "stroke-width": 1.2}, svg);
+      el("text", {x: x + bw / 2, y: Y1 + 15, "text-anchor": "middle"}, svg, lab);
+    });
+    el("text", {x: X0 + gw * (j + 0.5), y: Y1 + 34, "text-anchor": "middle", fill: css("--ink2")}, svg, P.label);
+  });
+  const ok = Math.abs(worst) < 0.04;
+  setVerdict("v2", ok, ok
+    ? `Pass. No placebo record moves more than ${Math.abs(100 * worst).toFixed(1)} points from expectation (largest: ${worstLab}); the threshold is 4. The 7-7 bars are the only ones that rise.`
+    : `Fail. ${worstLab} is ${pts(worst)} from expectation, beyond the 4-point threshold. The rating model is not neutral on the last day.`);
+  return ok;
+}
+
+function setVerdict(id, ok, text){
+  const v = document.getElementById(id);
+  v.className = "verdict " + (ok ? "ok" : "bad"); v.textContent = text;
+}
+
+/* ---------- control 1: reproduce the paper ---------- */
+function reproduce(exp){
+  const t = document.getElementById("repro");
+  /* published coefficient and its standard error, Table 1 column 1 */
+  const pub = [[15, 0.244, 0.019], [14, 0.150, 0.016], [13, 0.096, 0.016], [12, 0.038, 0.017], [11, 0.000, 0.018]];
+  const inP = inPeriod(1);
+  let rows = "<tr><th>Figure</th><th style='text-align:right'>Published</th><th style='text-align:right'>Rerun here</th><th style='text-align:right'>Bouts</th><th>Within</th></tr>";
+  let allOk = true;
+  for (const [d, v, se] of pub){
+    const r = excess(exp, {day: d, pick: onMargin, opp: offMargin, inBout: inP});
+    /* two combined standard errors: the paper's and this sample's */
+    const tol = 2 * Math.hypot(se, r.rawSe), ok = Math.abs(r.raw - v) <= tol; allOk = allOk && ok;
+    rows += `<tr><td>Excess wins on the margin, day ${d}</td><td class="n">${v.toFixed(3)}</td><td class="n">${r.raw < 0 ? "−" : ""}${Math.abs(r.raw).toFixed(3)}</td><td class="n">${r.n.toLocaleString()}</td><td class="${ok ? "okc" : "badc"}">${ok ? "yes" : "no"} (±${tol.toFixed(3).slice(1)})</td></tr>`;
+  }
+  const B = measureB(bPeriod(1));
+  for (const [k, v] of [[8, 0.260], [7, 0.122], [9, 0.162], [6, 0.139]]){
+    const ok = Math.abs(B.p[k] - v) <= 0.015; allOk = allOk && ok;
+    rows += `<tr><td>Share finishing on ${k} wins</td><td class="n">${fmtP(v, 1)}</td><td class="n">${fmtP(B.p[k], 1)}</td><td class="n">${B.n.toLocaleString()}</td><td class="${ok ? "okc" : "badc"}">${ok ? "yes" : "no"} (±1.5)</td></tr>`;
+  }
+  const C = payback(exp, 1), all = {n: C.won.n + C.lost.n, w: C.won.w + C.lost.w};
+  const raw = all.w / all.n - 0.5, okC = Math.abs(raw + 0.073) <= 0.03; allOk = allOk && okC;
+  rows += `<tr><td>Margin wrestler, next meeting with the same man</td><td class="n">−0.073</td><td class="n">${raw < 0 ? "−" : "+"}${Math.abs(raw).toFixed(3)}</td><td class="n">${all.n.toLocaleString()}</td><td class="${okC ? "okc" : "badc"}">${okC ? "yes" : "no"} (±.030)</td></tr>`;
+  t.innerHTML = rows;
+  setVerdict("v1", allOk, allOk
+    ? "Pass. Every published figure is reproduced within two combined standard errors, from a different dataset and a different decade of software. The pipeline sees what they saw. Day 11 is the loosest fit: it missed the flat ±.040 tolerance this check first used, by .001."
+    : "Fail. At least one published figure is not reproduced; the pipeline may not be measuring what the paper measured.");
+  return allOk;
+}
+
+/* ---------- control 3 and 4 ---------- */
+function rankControl(eloExp, rank){
+  const t = document.getElementById("rankT");
+  let rows = "<tr><th>Period</th><th style='text-align:right'>vs Elo</th><th style='text-align:right'>vs rank</th><th style='text-align:right'>Gap</th></tr>";
+  let worst = 0;
+  PERIODS.forEach((P, j) => {
+    const a = excess(eloExp, A_FILTER(inPeriod(j))), b = excess(rank.exp, A_FILTER(inPeriod(j)));
+    worst = Math.max(worst, Math.abs(a.ex - b.ex));
+    rows += `<tr><td>${P.label}</td><td class="n">${pts(a.ex)}</td><td class="n">${pts(b.ex)}</td><td class="n">${Math.abs(100 * (a.ex - b.ex)).toFixed(1)}</td></tr>`;
+  });
+  t.innerHTML = rows;
+  const ok = worst < 0.04;
+  setVerdict("v3", ok, ok ? `Pass. The two expectations never differ by more than ${(100 * worst).toFixed(1)} points (threshold 4).` : `Fail. The expectations differ by ${(100 * worst).toFixed(1)} points in some period.`);
+  return ok;
+}
+function calibration(exp){
+  const {C, nb, tag} = S, t = document.getElementById("calT");
+  let rows = "<tr><th>Period</th><th style='text-align:right'>Bouts</th><th style='text-align:right'>Favourite expected</th><th style='text-align:right'>Favourite won</th><th style='text-align:right'>Gap</th></tr>";
+  let worst = 0; const gaps = [];
+  PERIODS.forEach((P, j) => {
+    let n = 0, e = 0, w = 0;
+    for (let i = 0; i < nb; i++){
+      if (tag[i] !== 0 || C.bDay[i] < 11 || S.periodOfBout(i) !== j) continue;
+      const p = exp[i], fa = p >= 0.5;
+      n++; e += fa ? p : 1 - p; w += fa ? (C.bFlag[i] & 1) : 1 - (C.bFlag[i] & 1);
+    }
+    const g = (w - e) / n; worst = Math.max(worst, Math.abs(g)); gaps.push(g);
+    rows += `<tr><td>${P.label}</td><td class="n">${n.toLocaleString()}</td><td class="n">${fmtP(e / n, 1)}</td><td class="n">${fmtP(w / n, 1)}</td><td class="n">${pts(g)}</td></tr>`;
+  });
+  t.innerHTML = rows;
+  const bad = gaps.map((g, j) => Math.abs(g) >= 0.03 ? j : -1).filter(j => j >= 0);
+  const headOk = !bad.includes(2) && !bad.includes(3);
+  setVerdict("v4", bad.length === 0, bad.length === 0
+    ? `Pass. In every period the favourite wins within ${(100 * worst).toFixed(1)} points of what the model said (threshold 3).`
+    : `Fails in ${bad.map(j => PERIODS[j].label + " (" + pts(gaps[j]) + ")").join(", ")}: there, favourites in ordinary late bouts won less often than the model said, so the Elo-based figures for ${bad.length > 1 ? "those periods" : "that period"} are flagged; read them beside the rank-based column in control 3. ${headOk ? "The two periods the headline compares pass." : "That includes a period the headline compares, so the headline is withdrawn."}`);
+  return headOk;
+}
+
+/* ---------- payback (measure C) ---------- */
+function payback(exp, j){
+  const {C, nb, tag, next, preW} = S;
+  const out = {early: {n: 0, w: 0, e: 0}, late: {n: 0, w: 0, e: 0}, won: {n: 0, w: 0, e: 0}, lost: {n: 0, w: 0, e: 0}};
+  for (let i = 0; i < nb; i++){
+    if (tag[i] === 8 || next[i] < 0 || S.periodOfBout(i) !== j) continue;
+    const k = next[i]; if (C.bFlag[k] & 2) continue;
+    const d = C.bDay[i], aWon = (C.bFlag[i] & 1) === 1;
+    let kind, focalIsA;
+    if (d <= 5){ kind = "early"; focalIsA = aWon; }
+    else if (d >= 13 && tag[i] === 0){ kind = "late"; focalIsA = aWon; }
+    else if (d >= 13){ focalIsA = tag[i] === 1; kind = (aWon === focalIsA) ? "won" : "lost"; }
+    else continue;
+    /* the next meeting stores its own a/b order, which may be the other way round */
+    const sameOrder = C.eRik[C.bA[k]] === C.eRik[C.bA[i]];
+    const focalIsAk = sameOrder ? focalIsA : !focalIsA;
+    const o = out[kind];
+    o.n++; o.w += focalIsAk ? (C.bFlag[k] & 1) : 1 - (C.bFlag[k] & 1); o.e += focalIsAk ? exp[k] : 1 - exp[k];
+  }
+  for (const k in out){ const o = out[k]; o.ex = (o.w - o.e) / o.n; o.se = Math.sqrt(0.25 / o.n); }
+  return out;
+}
+let C_PERIOD = 0;
+function drawPayback(exp){
+  const svg = document.getElementById("cChart"); clear(svg);
+  const r = payback(exp, C_PERIOD);
+  const kinds = [["early", "Won a bout on days 1–5", css("--dim")], ["late", "Won a late bout, nobody on the margin", css("--ink3")],
+                 ["won", "Margin wrestler won (the 'bought' case)", css("--shu")], ["lost", "Margin wrestler lost", css("--ai")]];
+  const X0 = 50, X1 = 950, Y0 = 16, Y1 = 196, lo = -0.2, hi = 0.08;
+  const yOf = v => Y1 - (v - lo) / (hi - lo) * (Y1 - Y0);
+  for (let v = -0.2; v <= hi + 1e-9; v += 0.05) axisY(svg, X0, X1, yOf(v), (v > 0.001 ? "+" : v < -0.001 ? "−" : "") + Math.round(Math.abs(v) * 100));
+  el("line", {x1: X0, x2: X1, y1: yOf(0), y2: yOf(0), stroke: css("--ink3"), "stroke-width": 1.2}, svg);
+  const gw = (X1 - X0) / 4;
+  kinds.forEach(([k, lab, color], m) => {
+    const o = r[k], x = X0 + gw * m + gw * 0.2, bw = gw * 0.6;
+    el("rect", {x, y: Math.min(yOf(o.ex), yOf(0)), width: bw, height: Math.abs(yOf(o.ex) - yOf(0)), fill: color}, svg);
+    el("line", {x1: x + bw / 2, x2: x + bw / 2, y1: yOf(o.ex + 1.96 * o.se), y2: yOf(o.ex - 1.96 * o.se), stroke: css("--ink"), "stroke-width": 1.3}, svg);
+    el("text", {x: x + bw / 2, y: (o.ex >= 0 ? yOf(o.ex + 1.96 * o.se) - 6 : yOf(o.ex - 1.96 * o.se) + 14), "text-anchor": "middle", fill: css("--ink")}, svg, pts(o.ex));
+    const words = lab.split(" "), half = Math.ceil(words.length / 2);
+    el("text", {x: x + bw / 2, y: Y1 + 22, "text-anchor": "middle", fill: css("--ink2")}, svg, words.slice(0, half).join(" "));
+    el("text", {x: x + bw / 2, y: Y1 + 37, "text-anchor": "middle", fill: css("--ink2")}, svg, words.slice(half).join(" ") + ` (${o.n.toLocaleString()})`);
+  });
+  document.getElementById("cTip").textContent = "Next meeting of the same two wrestlers, from the side named under each bar: actual wins minus what the rating model expected.";
+  const bought = r.won.ex - r.early.ex, lateRev = r.late.ex - r.early.ex;
+  const placeboOk = Math.abs(r.early.ex) < 0.02;
+  const separates = placeboOk && (bought < -0.03) && (bought - lateRev < -0.03);
+  const P = PERIODS[C_PERIOD].label;
+  setVerdict("vC", placeboOk && Math.abs(lateRev) < 0.02, !placeboOk
+    ? `${P}: the early-day placebo itself is ${pts(r.early.ex)}, so nothing here can be read.`
+    : Math.abs(lateRev) >= 0.02
+      ? `${P}: the early-day placebo is clean (${pts(r.early.ex)}), but ordinary late bouts also reverse (${pts(r.late.ex)}). The 'bought' reversal (${pts(r.won.ex)}) ${separates ? "is larger, but" : "is not clearly larger, and"} the test cannot attribute it to the margin alone.`
+      : `${P}: the early-day placebo is clean (${pts(r.early.ex)}) and ordinary late bouts do not reverse (${pts(r.late.ex)}). The margin wrestler who won does ${r.won.ex < -0.03 ? "lose the rematch more often" : "not lose the rematch more often"} (${pts(r.won.ex)}).`);
+}
+
+/* ---------- schedule ---------- */
+function drawSchedule(){
+  const {C, nb, preW, preL} = S, svg = document.getElementById("sched"); clear(svg);
+  const by = {};
+  for (let i = 0; i < nb; i++){
+    if (C.bDay[i] !== 15 || S.blank[C.bA[i]] || S.blank[C.bB[i]]) continue;
+    const a = C.bA[i], b = C.bB[i];
+    const a77 = preW[a * 16 + 14] === 7 && preL[a * 16 + 14] === 7, b77 = preW[b * 16 + 14] === 7 && preL[b * 16 + 14] === 7;
+    if (!a77 && !b77) continue;
+    const y = S.yearOfBout(i), o = by[y] ||= {n: 0, both: 0, single: 0};
+    o.n += a77 + b77; if (a77 && b77) o.both += 2; else o.single++;
+  }
+  const X0 = 50, X1 = 950, Y0 = 16, Y1 = 214, yr0 = 1958, yr1 = 2027;
+  const xOf = y => X0 + (y - yr0) / (yr1 - yr0) * (X1 - X0), bw = (X1 - X0) / (yr1 - yr0);
+  const yOf = v => Y1 - v * (Y1 - Y0);
+  for (let v = 0; v <= 1.0001; v += 0.25) axisY(svg, X0, X1, yOf(v), Math.round(v * 100) + "%");
+  const tip = document.getElementById("schedTip");
+  let pre = {n: 0, both: 0}, post = {n: 0, both: 0}, single = {pre: 0, post: 0, preY: 0, postY: 0};
+  for (let y = yr0; y < yr1; y++){
+    const o = by[y]; if (!o) continue;
+    const s = o.both / o.n, late = y >= 2019;
+    el("rect", {x: xOf(y) + 1, y: yOf(s), width: bw - 2, height: Y1 - yOf(s), fill: late ? css("--ink") : css("--ink3"), "fill-opacity": late ? 0.85 : 0.5}, svg);
+    const hit = el("rect", {x: xOf(y), y: Y0, width: bw, height: Y1 - Y0, fill: "transparent"}, svg);
+    const show = () => { tip.textContent = `${y}: ${o.n} wrestlers on 7-7 going into the last day, ${o.both} drawn against another 7-7 (${fmtP(s)}); ${o.single} bouts with one side on 7-7.`; };
+    hit.addEventListener("mouseenter", show); hit.addEventListener("click", show);
+    if (y >= 2008 && y <= 2018){ pre.n += o.n; pre.both += o.both; single.pre += o.single; single.preY++; }
+    if (late){ post.n += o.n; post.both += o.both; single.post += o.single; single.postY++; }
+  }
+  for (let y = 1960; y <= 2020; y += 10) el("text", {x: xOf(y) + bw / 2, y: Y1 + 18, "text-anchor": "middle"}, svg, y);
+  document.getElementById("schedNote").textContent =
+    `2008–2018: ${fmtP(pre.both / pre.n)} of 7-7 wrestlers met another 7-7, and there were ${(single.pre / single.preY).toFixed(0)} usable bouts a year. 2019–2026: ${fmtP(post.both / post.n)}, and ${(single.post / single.postY).toFixed(0)} a year.`;
+}
+
+/* ---------- instrument table ---------- */
+function instrument(){
+  const I = DATA.instrument, x = I.cross, j = I.jsa;
+  const cmp = (x.identical || 0) + (x["api has blank days"] || 0) + (x["differ only in default notation"] || 0) + Object.keys(x).filter(k => k.startsWith("different")).reduce((s, k) => s + x[k], 0);
+  const diff = Object.keys(x).filter(k => k.startsWith("different")).reduce((s, k) => s + x[k], 0);
+  const rows = [
+    ["The official record", `The Sumo Association's results chart is drawn by script from an undocumented endpoint that refuses any request without a cookie the page sets in inline code, and whose name and value change between loads ("game=cat", "mischeief=OK"). Read with that cookie replayed.`, `${j.identical.toLocaleString()} of ${(j.identical + j.different).toLocaleString()} bouts in ${j.basho.slice(0, 4)}-${j.basho.slice(4)} identical to sumo-api: winner, loser and opponent.`],
+    ["Two sites, one history", "Every wrestler's fifteen-day string from SumoDB matched to sumo-api by tournament and banzuke slot, falling back to the ring name where the sites slot a man differently.", `${(x.identical || 0).toLocaleString()} of ${cmp.toLocaleString()} identical; ${(x["api has blank days"] || 0).toLocaleString()} differ only where sumo-api has a blank day; ${diff} genuinely different; ${(x["slot differs, matched by name"] || 0)} found by name.`],
+    ["Missing days", "Three tournaments in sumo-api are missing a whole day for everyone (day 7 of March 1965, day 6 of May 1965, day 5 of November 1978), and a few wrestlers elsewhere have blank days. A wrestler's record that morning is then unknown, so he could be put on the wrong side of the margin.", `${I.blankEntries.toLocaleString()} wrestler-tournaments with a blank day are left out of every measure rather than guessed.`],
+    ["Totals but no days", "Some early entries carry only a final tally and no day-by-day results, and four records are cut short.", `${I.totalsOnly + I.short} entries cannot be used and are left out.`],
+    ["Visitors from below", "Juryo wrestlers sometimes fight a Makushita wrestler brought up for the day. He has no rating here.", `${I.droppedBouts.toLocaleString()} such bouts are counted in the Juryo man's record but not rated or tested.`],
+    ["Wins by default", "If an opponent withdraws, the man on 7-7 gets his eighth win without a bout. Counting those as wins would inflate the excess for free.", "Excluded from every measure; they still count toward the next day's record, as they do on the banzuke."],
+    ["The two sides of a bout", "Every bout appears twice, once in each wrestler's record. If the two ever disagreed about the winner or the opponent, the parse would be suspect.", `${I.sidesDisagree} disagreements in ${DATA.bouts.toLocaleString()} bouts.`]
+  ];
+  document.getElementById("instT").innerHTML = "<tr><th>Where</th><th>What could go wrong</th><th>What it did</th></tr>" +
+    rows.map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("");
+}
+
+/* ---------- headline ---------- */
+function headline(exp, controlsOk){
+  const before = excess(exp, A_FILTER(inPeriod(2))), after = excess(exp, A_FILTER(inPeriod(3)));
+  const Bb = measureB(bPeriod(2)), Ba = measureB(bPeriod(3));
+  const dA = after.ex - before.ex, seA = Math.hypot(after.se, before.se);
+  const dB = Ba.gap - Bb.gap, seB = Math.hypot(Ba.se, Bb.se);
+  const nullA = Math.abs(dA) < 1.96 * seA, nullB = Math.abs(dB) < 1.96 * seB;
+  pairBars(document.getElementById("purgeA"), [
+    {lab: "2000–2011", bars: [{v: before.rate, se: Math.sqrt(before.rate * (1 - before.rate) / before.n), color: css("--shu"), lab: "won"}, {v: before.expRate, color: css("--ai"), op: .75, lab: "expected"}]},
+    {lab: "2011–2018", bars: [{v: after.rate, se: Math.sqrt(after.rate * (1 - after.rate) / after.n), color: css("--shu"), lab: "won"}, {v: after.expRate, color: css("--ai"), op: .75, lab: "expected"}]}
+  ], {lo: 0, hi: 0.8, step: 0.2});
+  pairBars(document.getElementById("purgeB"), [
+    {lab: "2000–2011", bars: [{v: Bb.p[8], color: css("--shu"), lab: "8-7", d: 1}, {v: Bb.p[7], color: css("--dim"), lab: "7-8", d: 1}]},
+    {lab: "2011–2018", bars: [{v: Ba.p[8], color: css("--shu"), lab: "8-7", d: 1}, {v: Ba.p[7], color: css("--dim"), lab: "7-8", d: 1}]}
+  ], {lo: 0, hi: 0.25, step: 0.05});
+  const ci = (d, s) => `${pts(d)}, 95% interval ${sgn(d - 1.96 * s)} to ${sgn(d + 1.96 * s)}`;
+  setVerdict("vA", nullA, `Excess ${pts(before.ex)} before (${before.n} bouts), ${pts(after.ex)} after (${after.n}). Change ${ci(dA, seA)}: ${nullA ? "no measurable change." : "a measurable change."}`);
+  setVerdict("vB", nullB, `Surplus ${pts(Bb.gap)} before (${Bb.n.toLocaleString()} records), ${pts(Ba.gap)} after (${Ba.n.toLocaleString()}). Change ${ci(dB, seB)}: ${nullB ? "no measurable change." : "a measurable change."}`);
+
+  const f = document.getElementById("finding");
+  if (!controlsOk){
+    f.className = "finding withheld";
+    f.textContent = "Headline withdrawn: one of the controls below has failed at this setting, so the comparison cannot be trusted as stated. See the red verdicts.";
+  } else if (nullA && nullB){
+    f.className = "finding";
+    f.innerHTML = `Sumo's 2011 match-fixing purge left no mark on the final day. A wrestler who needed his <b>eighth win</b> beat an opponent who did not <b>${fmtP(before.rate)}</b> of the time in the decade before it and <b>${fmtP(after.rate)}</b> in the eight years after, against about ${fmtP((before.e + after.e) / (before.n + after.n))} expected both times.`;
+  } else {
+    f.className = "finding";
+    f.innerHTML = `Around sumo's 2011 purge, a wrestler who needed his <b>eighth win</b> beat an opponent who did not <b>${fmtP(before.rate)}</b> of the time before it and <b>${fmtP(after.rate)}</b> after, against about ${fmtP((before.e + after.e) / (before.n + after.n))} expected. At this setting at least one measure registers a change; see the verdicts.`;
+  }
+  const P2 = excess(exp, A_FILTER(inPeriod(1))), P5 = excess(exp, A_FILTER(inPeriod(4))), B5 = measureB(bPeriod(4));
+  document.getElementById("nums").innerHTML = [
+    [fmtP(P2.rate), `7-7 wrestlers' last-day win rate in 1989–2000, the paper's years (expected ${fmtP(P2.expRate)})`],
+    [fmtP(before.rate), `March 2000 to January 2011, the decade before the purge (expected ${fmtP(before.expRate)})`],
+    [fmtP(after.rate), `May 2011 to November 2018, after it (expected ${fmtP(after.expRate)})`],
+    [fmtP(P5.rate), `2019–2026, under the new schedule: ${P5.n} bouts in eight years (expected ${fmtP(P5.expRate)})`]
+  ].map(([v, d]) => `<div><div class="v">${v}</div><div class="d">${d}</div></div>`).join("");
+  document.getElementById("post19").textContent = `from 2019 to September 2026 the man on 7-7 won ${fmtP(P5.rate)} of ${P5.n} such bouts against ${fmtP(P5.expRate)} expected (${pts(P5.ex)}, interval ${sgn(P5.ex - 1.96 * P5.se)} to ${sgn(P5.ex + 1.96 * P5.se)}), and the 8-7 surplus was ${pts(B5.gap)}. Lower than before on both, and too few bouts to say how much.`;
+}
+
+/* ---------- run ---------- */
+let RANK = null, OK1 = true;
+function runAll(K){
+  const exp = elo(K);
+  OK1 = reproduce(exp);
+  const ok2 = drawPlacebo(exp), ok3 = rankControl(exp, RANK), ok4 = calibration(exp);
+  headline(exp, OK1 && ok2 && ok3 && ok4);
+  drawHistory(exp);
+  drawPayback(exp);
+  S.exp = exp;
+}
+function hero(){
+  const h = document.getElementById("hoshi");
+  const seq = "WLWWLLWLWWLLWL";
+  h.innerHTML = [...seq].map((c, i) => (i === 5 || i === 10 ? '<span class="gap"></span>' : "") + `<span class="${c === "W" ? "w" : "l"}"></span>`).join("") + '<span class="q"></span><em>day 15</em>';
+}
+(async function(){
+  hero();
+  try { await load(); }
+  catch (e){ document.getElementById("loading").textContent = "This page needs a browser that can unpack gzip (any current Chrome, Edge, Firefox or Safari)."; return; }
+  document.getElementById("nBouts").textContent = DATA.bouts.toLocaleString();
+  document.getElementById("nBasho").textContent = new Set(Array.from(S.C.eBasho)).size.toLocaleString();
+  RANK = rankModel();
+  drawSchedule();
+  instrument();
+  const cc = document.getElementById("cChips");
+  cc.innerHTML = PERIODS.map((P, j) => `<button class="chip" data-p="${j}" aria-pressed="${j === 0}">${P.label}</button>`).join("");
+  cc.addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return;
+    C_PERIOD = +b.dataset.p; cc.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c === b)); drawPayback(S.exp); });
+  document.getElementById("binChips").addEventListener("click", e => { const b = e.target.closest(".chip"); if (!b) return;
+    BIN = +b.dataset.bin; document.querySelectorAll("#binChips .chip").forEach(c => c.setAttribute("aria-pressed", c === b)); drawHistory(S.exp); });
+  const ks = document.getElementById("kSlider"); let pend = 0;
+  ks.addEventListener("input", () => { document.getElementById("kOut").textContent = ks.value; cancelAnimationFrame(pend);
+    pend = requestAnimationFrame(() => runAll(+ks.value)); });
+  runAll(10);
+  document.getElementById("loading").remove();
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { PAL = {}; runAll(+ks.value); drawSchedule(); });
+})();
+</script>
+</body>
+</html>
